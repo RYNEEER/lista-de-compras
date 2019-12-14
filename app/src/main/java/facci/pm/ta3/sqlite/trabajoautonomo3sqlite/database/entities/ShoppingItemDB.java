@@ -1,7 +1,9 @@
 package facci.pm.ta3.sqlite.trabajoautonomo3sqlite.database.entities;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 import facci.pm.ta3.sqlite.trabajoautonomo3sqlite.database.helper.ShoppingElementHelper;
 import facci.pm.ta3.sqlite.trabajoautonomo3sqlite.database.model.ShoppingItem;
@@ -34,7 +36,11 @@ public class ShoppingItemDB {
 
 
     public void insertElement(String productName) {
-        //TODO: Todo el código necesario para INSERTAR un Item a la Base de datos
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ShoppingElementEntry.COLUMN_NAME_TITLE, productName);
+        db.insert(ShoppingElementEntry.TABLE_NAME, null, contentValues);
+        db.close();
     }
 
 
@@ -78,16 +84,27 @@ public class ShoppingItemDB {
 
 
     public void clearAllItems() {
-        //TODO: Todo el código necesario para ELIMINAR todos los Items de la Base de datos
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete(ShoppingElementEntry.TABLE_NAME, null, null);
 
     }
 
     public void updateItem(ShoppingItem shoppingItem) {
-        //TODO: Todo el código necesario para ACTUALIZAR un Item en la Base de datos
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ShoppingElementEntry.COLUMN_NAME_TITLE, shoppingItem.getName());
+        db.update(ShoppingElementEntry.TABLE_NAME,
+                contentValues, ShoppingElementEntry._ID+ "-"
+                        + shoppingItem.getId(), null );
 
     }
 
     public void deleteItem(ShoppingItem shoppingItem) {
-        //TODO: Todo el código necesario para ELIMINAR un Item de la Base de datos
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String [] lugar = {shoppingItem.getName()};
+        db.delete(ShoppingElementEntry.TABLE_NAME,
+                ShoppingElementEntry.COLUMN_NAME_TITLE
+                        + "LIKE Xd",lugar);
+
     }
 }
