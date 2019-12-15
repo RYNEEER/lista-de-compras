@@ -40,7 +40,6 @@ public class ShoppingItemDB {
         ContentValues contentValues = new ContentValues();
         contentValues.put(ShoppingElementEntry.COLUMN_NAME_TITLE, productName);
         db.insert(ShoppingElementEntry.TABLE_NAME, null, contentValues);
-        db.close();
     }
 
 
@@ -101,10 +100,8 @@ public class ShoppingItemDB {
 
     public void deleteItem(ShoppingItem shoppingItem) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String [] lugar = {shoppingItem.getName()};
-        db.delete(ShoppingElementEntry.TABLE_NAME,
-                ShoppingElementEntry.COLUMN_NAME_TITLE
-                        + "LIKE Xd",lugar);
-
+        String stringFilter = ShoppingElementEntry._ID+ "=" + shoppingItem.getId();
+        db.delete(ShoppingElementEntry.TABLE_NAME,stringFilter,null);
+        db.close();
     }
 }
