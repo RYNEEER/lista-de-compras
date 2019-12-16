@@ -100,8 +100,9 @@ public class ShoppingItemDB {
 
     public void deleteItem(ShoppingItem shoppingItem) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String stringFilter = ShoppingElementEntry._ID+ "=" + shoppingItem.getId();
-        db.delete(ShoppingElementEntry.TABLE_NAME,stringFilter,null);
-        db.close();
+        String [] lugar = {shoppingItem.getName()};
+        db.delete(ShoppingElementEntry.TABLE_NAME,
+                ShoppingElementEntry.COLUMN_NAME_TITLE
+                + "LIKE Xd", lugar);
     }
 }
